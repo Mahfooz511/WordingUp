@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+      <meta http-equiv="Author" content="Mahfooz Khan">
+      <meta name="title" content="Online synonym checker - WordingUp">
+      <meta name="description" content="Easy to use text improver and synonym checker. Check synonyms of all words in text, and update your text instantly.">
+      <meta name="keywords" content="Wording, wordings, Wordingup, Thesaurus, synonym, homophones, grammar, textup, text, writing, school, alphabet, dictionary, plagiarism, copy">
+      <meta name="fragment" content="!">
+      <meta property="og:title" content="Your Online Synonym Checker">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="http://www.wordingup.com/">
+      <meta property="og:site_name" content="Wordingup">
+      <meta property="og:email" content="mail@wordingup.com">
+      <!--meta property="fb:app_id" content="6155053707/"-->
+      <!--meta property="fb:admins" content="747102405"-->
+      <meta name="format-detection" content="telephone=no">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <link rel="image_src" href="img/logo_for_facebook.png">
+      <link rel="apple-touch-icon" href="mobile/apple-touch-icon.png">
+      <link rel="stylesheet" href="wordingup.css" type="text/css" charset="iso-8859-1">
+      <link rel="shortcut icon" href="./img/favicon.ico" type="image/png">
+      <!-- Include jQuery -->
+      <link rel="icon" href="http://wordingup.com/img/favicon.ico" type="image/png">
+      <title>Online synonym checker - WordingUp</title>
+      <style type="text/css"></style>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+      <script src="./plugin/prettysocial/jquery.prettySocial.min.js"></script>
+
+   </head>
+   <body id="home" class="en_US">
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=811759702219421&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+      <div id="scaffold">
+         <div id="head">
+            <h1 id="logo"> <a href="http://www.wordingup.com" title="A Tool For Checking Synonym Online">WordingUp - Find Synonyms Online And Make Your Text Powerfull</a> </h1>
+            <a id="tmcheck"  style="color:#36526B"> CHECK TIME </a>
+            <div id="flash_message"></div>
+            <div id="social"> 
+              <div class="social-container">
+               <div class="links">
+                  <a href="#" title="Share on Twitter" data-type="twitter" data-url="http://wordingup.com/" data-description="Synonym checker for your text. Power up your text with better words." data-via="WordingUpDOTcom" class="prettySocial fa fa-twitter"></a>
+
+                  <a href="#" title="Share on Google+" data-type="googleplus" data-url="http://wordingup.com/" data-description="Synonym checker for your text. Power up your text with better words." class="prettySocial fa fa-google-plus"></a>
+                  
+                  <a href="#" title="Pin on Pinterest" data-type="pinterest" data-url="http://wordingup.com/" data-description="Synonym checker for your text. Power up your text with better words." data-media="http://wordingup.com/img/logo2.jpg" class="prettySocial fa fa-pinterest"></a>
+
+                  <div class="fb-like" data-href="http://www.facebook.com/wordingup" data-width="47" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+                  
+               </div>
+
+               <script type="text/javascript" class="source">
+                  $('.prettySocial').prettySocial();
+               </script>
+              </div>
+
+            </div> 
+         </div>
+         
+         <div id="content">
+            
+            <div id="dynamic_area" >
+               <div id="tools">                  
+                  <a id="info" class="info" title="Text Statistics Info" href="#">Show text Info</a>
+                  <a id="mail" class="mail" title="Email This Text" href="#">Mail this text</a>
+                  <a id="tweet" class="tweet" title="Tweet This Text" href="#">Tweet this text</a>
+                  <a id="info_gray" class="info" title="" href="#" style="display:none">Show text Info</a>
+                  <a id="mail_gray" class="mail" title="" href="#" style="display:none">Mail this text</a>
+                  <a id="tweet_gray" class="tweet" title="" href="#" style="display:none">Tweet this text</a>
+               </div>
+               <div id="text">
+                  <form method="post" action="getdatawordnik.php" id="synonym_check_form" autocomplete="off" style="display: block;"> 
+                     <input name="number_suggestions" type="hidden" value="6"> 
+                     <textarea id="synonym_check_text" placeholder="Enter or paste your text here..." rows="30" cols="30" tabindex="1" autocapitalize="off" autocorrect="off" title="Help: Click on the red and underlined words to see the synonym." spellcheck="true" name="text" style="width: 1091px; height: 226px; background-color: #F5F0EC;"></textarea>
+                  </form>
+                  <div id="synonym_check_result" class="" spellcheck="false" style="width: 1135px; height: 242px; display: none; background-color: #F5F0EC;">
+                  </div>
+                  <img id="loadingimg" src="./img/icon_loading.gif"  class="loader" classname="loader" style="display: none;">
+               </div>
+
+               <div id="column"> 
+                  <div id="boxes">
+
+                  </div> 
+                  <div id="selectedwords">
+                     
+                  </div>
+               </div> 
+            </div>
+         </div>
+      </div>
+
+      <div id="foot">
+         <button id="synonym_check_button" title="Get Synonym"  style="display: block;"> <span><strong>Get Synonym</strong></span> 
+         </button> 
+         <button id="resume_button" title="Edit Text " style="display: none;"> <span><strong>Edit Text</strong></span> </button> 
+         <em id="check_hint" style="display: none;"> <strong>Help:</strong> Click on the red and underlined words to see the synonyms. </em> 
+         <div id="navigation"> 
+            <a href="/?_escaped_fragment_=about" rel="about" id="navigation_about">About Wording Up</a> &nbsp;|&nbsp; 
+            <a href="/?_escaped_fragment_=tos" id="navigation_tos" rel="tos">Disclaimer</a> &nbsp;|&nbsp; 
+            <a href="/?_escaped_fragment_=privacy" id="navigation_privacy" rel="privacy">Privacy Policy</a> &nbsp;|&nbsp; <a href="/?_escaped_fragment_=contact" rel="contact" id="navigation_contact">Contact</a> 
+         </div>
+            
+      </div>
+      <div class="lightbox" id="lightbox_m"> 
+            <div class="lightbox_head"> 
+               <h3 class="lightbox_title" id="lightbox_title_m"></h3> 
+               <a title="Close lightbox" class="lightbox_close" id="lightbox_close_m" href="#">Close lightbox</a> 
+            </div> 
+            <div id="lightbox_content_m" class="lightbox_content">
+            </div>
+         </div>
+         <div class="lightbox" id="lightbox_l"> 
+            <div class="lightbox_head"> 
+               <h3 class="lightbox_title" id="lightbox_title_l"></h3> 
+               <a title="Close lightbox" class="lightbox_close" id="lightbox_close_l" href="#">Close lightbox</a> 
+            </div> 
+            <div id="lightbox_content_l" class="lightbox_content">
+            </div>
+         </div>
+         <div class="lightbox" id="lightbox_xl"> 
+            <div class="lightbox_head"> 
+               <h3 class="lightbox_title" id="lightbox_title_xl"></h3> 
+               <a title="Close lightbox" class="lightbox_close" id="lightbox_close_xl" href="#">Close lightbox</a> 
+            </div> 
+            <div id="lightbox_content_xl" class="lightbox_content">
+            </div>
+         </div>
+
+         
+      </div>
+      <script type="text/javascript" src="wordingup.js" charset="iso-8859-1"></script> 
+      <div class="suggestion_container" classname="suggestion_container" id="suggestion_container_tb"></div>
+      <div id="moredata" class="moredata_container" classname="moredata_container">
+         <div class="moredata_head"> 
+            <h3 class="moredata_title" id="moredata_title"></h3> 
+            <a  class="moredata_close" id="moredata_close" href="#">Close</a> 
+            <div class="moredata_headrow" id="moredata_headrow">
+               Click on highlighted word to replace original.
+               
+            </div>
+         </div> 
+         
+         <div id="moredata_content" class="moredata_content">
+
+         </div>
+      </div>
+      <div id="lb_shadow" style="display: none; opacity: 0.8;" class="lightbox_shadow"></div>
+      <!-- Piwik -->
+      <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+          var u="http://wordingup.com/piwik/";
+          _paq.push(['setTrackerUrl', u+'piwik.php']);
+          _paq.push(['setSiteId', 1]);
+          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+          g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+      </script>
+      <noscript><p><img src="//localhost/MAMP/V2-wordingup/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+   </body>
+</html>
