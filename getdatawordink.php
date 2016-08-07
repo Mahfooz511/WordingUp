@@ -112,7 +112,7 @@
 	}
 
 	function get_syn_wordnik($word){
-		$myAPIKey = 'a7cc8f936ad50f6ea100f01558a0562d20faf1fedfbf345ed';
+		$myAPIKey = '';
 		$client = new APIClient($myAPIKey, 'http://api.wordnik.com/v4');
 		$wordApi = new WordApi($client);
 		//write_log("Call wordink start - $word");

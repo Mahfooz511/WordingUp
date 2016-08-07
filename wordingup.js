@@ -385,6 +385,7 @@ var tools = {
 		$("#mail").click(this._mail.bind(this));
 		$("#tweet").click(this._tweet.bind(this));
 		$("#lightbox_close_m").click(this.hide_info.bind(this));
+		$("#sentiment_check_button").click(this._sentiment.bind(this));
 	},
 
 	chars:  0,
@@ -392,6 +393,8 @@ var tools = {
 	sentances:  0,
 	lines:  0,
 	wordschanged:  0 ,
+	overallsentiment:  'Cant Find' ,
+	emotionsarray: [],
 
 	_calctextinfo: function(){
 		var text = $("#synonym_check_text").val() ;		
@@ -399,6 +402,39 @@ var tools = {
         this.words = this._countwords(text) ;
         this.sentances = this._countsentances(text);
         this.lines = (text == '') ? 0 : (text.split('\n').length) ;
+	},
+
+	_gettextsentiment: function(){
+		var text = $("#synonym_check_text").val() ;		
+		$.ajax({
+	    	type: "POST",
+	    	url: "./getsentiment_test.php/",
+	    	data: "textinput=" + encodeURIComponent(text),
+	   		dataType: "json",
+	   		success: function(data,status,ajxhr) {
+	   			//data = {OverallSentiment,Emotions["emotion":"Fear", "value":"39%], process_time}
+            	misc_tools.timetaken = data.process_time ;
+            	this.overallsentiment = data.OverallSentiment;
+            	var htmltext = ""; 
+				htmltext = htmltext + "<dl><dt>Overall Sentiment is :</dt><dd>" + this.overallsentiment + "</dd></dl>" ;
+		
+				jQuery.each( data.Emotions, function( i, val ) {
+  					htmltext = htmltext + "<dl><dt>" + val.emotion + ":</dt>    <dd>" + val.value + "</dd></dl>" ;
+  				});
+				$("#lightbox_content_m").html(htmltext);
+				$("#lightbox_title_m").html("Text Sentiment");
+				$("#lb_shadow, #lightbox_content_m, #lightbox_m").show();
+
+            	$("#loadingimg").hide();
+            	$("#synonym_check_result").show();
+               	$("#synonym_check_result").html(data.html);
+               	// resultpad.mydata = text ; 
+	   		}
+		}) ; 
+		// $( "#synonym_check_text" ).attr('readonly','readonly');
+        $( "#loadingimg" ).show(); 
+		// this.overallsentiment = "Looks fine 2" ;
+
 	},
 
 	_countsentances: function(s){
@@ -430,6 +466,20 @@ var tools = {
 
 	hide_info: function(){
 		$("#lb_shadow, #lightbox_content_m, #lightbox_m").hide();
+	},
+
+	_sentiment: function(){
+		this._gettextsentiment();
+		// var htmltext = ""; 
+		// htmltext = htmltext + "<dl><dt>Overall Sentiment is :</dt><dd>" + this.overallsentiment + "</dd></dl>" ;
+		// // htmltext = htmltext + "<dl><dt>Characters:</dt>    <dd>" + this.chars + "</dd></dl>" ;
+		// // htmltext = htmltext + "<dl><dt>Words:</dt>         <dd>" + this.words + "</dd></dl>" ;
+		// // htmltext = htmltext + "<dl><dt>Sentences:</dt>     <dd>" + this.sentances + "</dd></dl>" ;
+		// // htmltext = htmltext + "<dl><dt>Lines:</dt>         <dd>" + this.lines + "</dd></dl>" ;
+
+		// $("#lightbox_content_m").html(htmltext);
+		// $("#lightbox_title_m").html("Text Sentiment");
+		// $("#lb_shadow, #lightbox_content_m, #lightbox_m").show();
 	},
 	
 	_mail: function() {

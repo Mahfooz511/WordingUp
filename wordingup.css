@@ -585,10 +585,20 @@ html,body
 	position: absolute;
 	top: 14px;
 }
+
+
 #resume_button
 {
 	display: none;
 }
+
+#sentiment_check_button
+{
+	left: 175px;
+	position: absolute;
+	top: 14px;
+} 
+
 #navigation
 {
 	color: #f69;
