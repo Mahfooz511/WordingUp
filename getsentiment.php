@@ -1,5 +1,5 @@
 <?php 
-	require('./alchemy/alchemyapi.php');
+	require('./alchemyapi/alchemyapi.php');
 
 	$time_start = microtime(true); 
 	//echo	"Your Text is:   ";
@@ -27,6 +27,7 @@
  	// get watson code here
 	$sentiments = get_watson_sentiment($textinput) ;
 
+//echo print_r($sentiments) ;
   	//write_log("After getting data from Watson");
   	$watson_total_time = $watson_total_time + (microtime(true) - $watson_time_start) ;
 	write_log("Watson total time taken: " . $watson_total_time) ;
@@ -57,9 +58,8 @@
 		}
 
 		// Get emotions
-		$response = $alchemyapi->sentiment('text',$text, null);
+		$response = $alchemyapi->emotion('text',$text, null);
 		if ($response['status'] == 'OK') {
-			// echo print_r($response);
 			$emotions = $response['docEmotions']; 
 			arsort($emotions);
 			$totalscore = 0 ;
@@ -68,7 +68,7 @@
 			}
 			// Change in percentage
 			foreach ($emotions as $key => $value) {
-				$emotions[$key] = ($value / $totalscore) * 100;
+				$emotions[$key] = round(($value / $totalscore) * 100, 0);
 			}
 			// echo print_r($response);
 		} else {
@@ -79,19 +79,19 @@
 
 		return ($emotions) ;
 	}
-
+	
 	function create_json_string($sentiments, $process_time) {
-		$result = '{ "Overall Sentiment": "' . $sentiments['overall_sentiment'] . '} , { "Emotions" :  { "' ;
+		$result = '{ "OverallSentiment": "' . ucfirst($sentiments['overall_sentiment']) . '" , "Emotions":  [ ' ;
 
-		foreach ($sentiment as $key => $value) {
-			next if($key = 'overall_sentiment') ;
-			$result = $result  . $key . '":"' . $value . '",' ;
+		foreach ($sentiments as $key => $value) {
+			if(strcmp($key,'overall_sentiment') == 0 )  continue;
+			$result = $result  . '{ "emotion":"' . ucfirst($key) . '", "value":"' . $value . '%"},' ;
 		}
-		$result = $result . '}' ;
-		$result =  $result . '"process_time": "' . $process_time . '",' ;
+		$result = rtrim($result, ",") . ']' ;
+		$result =  $result . ',"process_time": "' . $process_time . '"}' ;
 		return $result ;  
 	}
-
+	
 	function write_log($message){
 		$now = date("H:i:s.u");
 		file_put_contents("./log/my-errors.log", "\n$now :$message", FILE_APPEND | LOCK_EX);
